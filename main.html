@@ -1,0 +1,19 @@
+<template name= "main">
+    <head>
+        <title>Space Book</title>
+        <link rel="stylesheet" href="socialSite.css">
+    </head>
+    
+    <body>
+        <div class="h1Wrapper">
+            <h1 class="h1"> 
+                {{#if currentUser}}
+                    <p class="title">Hi!</p>
+                {{else}}
+                    <p class="title">Welcome to Space Book</p>
+                {{/if}}
+            </h1>
+        </div>
+        {{> yield}}
+        </body>
+</template>

@@ -1,0 +1,38 @@
+<template name="register">
+    <div id="logInDiv">
+        <div id="blueTop">Space Book</div>
+        <form id="logInForm">
+                <div class="logInElementDiv">
+                    <input type="email" placeholder="Email" name="registerEmail"/>
+                </div>
+                <div class="logInElementDiv">
+                    <input type="password" placeholder="Password" name="registerPassword"/>
+                </div>
+                <div id="logInBtnDiv">
+                    <input id="logInBtn" type="submit" value="Register" />
+                </div>
+        </form>
+    </div>
+    <div id="signUpTxtDiv">Already have an account? <a class="signUpA" href="{{pathFor route='login'}}">Log in</a> here!</div>
+</template>
+
+<template name="login">
+    <div id="logInDiv">
+        <div id="blueTop">Space Book</div>
+        <form id="logInForm">
+                <div class="logInElementDiv">
+                    <input type="email" placeholder="Email" name="loginEmail"/>
+                </div>
+                <div class="logInElementDiv">
+                    <input type="password" placeholder="Password" name="loginPassword"/>
+                </div>
+                <div id="logInBtnDiv">
+                    <input id="logInBtn" type="submit" value="Login" />
+                </div>
+        </form>
+    </div>
+    <div id="signUpTxtDiv">New to Space Book? <a class="signUpA" href="{{pathFor route='register'}}">Sign up</a> here!</div>
+        {{#if currentUser}}
+        <footer><div class="logOutDiv"><a href="#" class="logOut">logout</a></div></footer>
+        {{/if}}
+</template>
