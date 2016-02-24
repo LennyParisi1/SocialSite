@@ -1,4 +1,4 @@
-var email,pass;
+var email,pass,firstName,lastName;
 
 if (Meteor.isClient) {
     
@@ -24,6 +24,15 @@ if (Meteor.isClient) {
             event.preventDefault();
             Meteor.logout();
             Router.go("login");
+        },
+        "click .delete":function(event){
+            Meteor.users.remove({ _id: Meteor.userId()}, function (error, result) {
+                if (error) {
+                    console.log("Error removing user: ", error);
+                } else {
+                    console.log("Number of users removed: " + result);
+                }
+            })    
         }
     });
     
@@ -32,11 +41,17 @@ if (Meteor.isClient) {
             event.preventDefault();
             email = $('[name=registerEmail]').val();
             pass = $('[name=registerPassword]').val();
+            firstName = $('[name=firstName]').val();
+            lastName = $('[name=lastName]').val();
             event.target.registerEmail.value = "";
             event.target.registerPassword.value = "";
             Accounts.createUser({
                 email:email,
-                password:pass
+                password:pass,
+                profile: {
+                    firstName: firstName,
+                    lastName: lastName
+                },
             });
             Router.go("login");
         }
@@ -50,7 +65,12 @@ if (Meteor.isClient) {
             event.target.loginEmail.value = "";
             event.target.loginPassword.value = "";
             Meteor.loginWithPassword(email, pass);
-            
+        }
+    });
+    
+    Template.main.helpers({
+        name:function(){
+            return Meteor.user().profile.firstName;    
         }
     });
     
@@ -61,6 +81,12 @@ if (Meteor.isClient) {
     Accounts.onLogin(function(){
         console.log("logged in");
     });    
+    
+    Meteor.users.allow({
+        remove: function (userId, doc) {
+            return true;
+        }
+    });
 }
 
 if (Meteor.isServer) {

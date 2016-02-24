@@ -121,7 +121,7 @@
     bottom: 0px;
 }
 
-.logOut{
+.logOut, .delete{
     font-family: sans-serif;
     font-style: bold;
     color: #44619D;

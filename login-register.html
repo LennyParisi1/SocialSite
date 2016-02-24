@@ -8,6 +8,12 @@
                 <div class="logInElementDiv">
                     <input type="password" placeholder="Password" name="registerPassword"/>
                 </div>
+                <div class="logInElementDiv">
+                    <input type="FirstName" placeholder="First Name" name="firstName"/>
+                </div>
+                <div class="logInElementDiv">
+                    <input type="LastName" placeholder="Last Name" name="lastName"/>
+                </div>
                 <div id="logInBtnDiv">
                     <input id="logInBtn" type="submit" value="Register" />
                 </div>
@@ -33,6 +39,9 @@
     </div>
     <div id="signUpTxtDiv">New to Space Book? <a class="signUpA" href="{{pathFor route='register'}}">Sign up</a> here!</div>
         {{#if currentUser}}
-        <footer><div class="logOutDiv"><a href="#" class="logOut">logout</a></div></footer>
+        <footer>
+            <div class="logOutDiv"><a href="#" class="logOut">Logout</a></div>
+            <div class="logOutDiv"><a href="#" class="delete">Delete Account</a></div>
+        </footer>
         {{/if}}
 </template>
