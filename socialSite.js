@@ -1,4 +1,4 @@
-var email,pass,firstName,lastName;
+var email,pass,firstName,lastName, birthMonth, birthYear;
 
 if (Meteor.isClient) {
     
@@ -43,6 +43,9 @@ if (Meteor.isClient) {
             pass = $('[name=registerPassword]').val();
             firstName = $('[name=firstName]').val();
             lastName = $('[name=lastName]').val();
+            birthMonth = $('[name=month]').val();
+            birthYear = $('[name=year]').val();
+            console.log(birthMonth + ", " + birthYear);
             event.target.registerEmail.value = "";
             event.target.registerPassword.value = "";
             Accounts.createUser({
@@ -50,7 +53,9 @@ if (Meteor.isClient) {
                 password:pass,
                 profile: {
                     firstName: firstName,
-                    lastName: lastName
+                    lastName: lastName,
+                    birthMonth: birthMonth,
+                    birthYear: birthYear
                 },
             });
             Router.go("login");
@@ -80,13 +85,7 @@ if (Meteor.isClient) {
     
     Accounts.onLogin(function(){
         console.log("logged in");
-    });    
-    
-    Meteor.users.allow({
-        remove: function (userId, doc) {
-            return true;
-        }
-    });
+    });   
 }
 
 if (Meteor.isServer) {
