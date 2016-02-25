@@ -1,10 +1,8 @@
-var email,pass,firstName,lastName, birthMonth, birthYear;
-
 if (Meteor.isClient) {
     
+    var email,pass,firstName,lastName, birthMonth, birthYear;
     
     routeAll();
-    
     
     Template.register.events({
         "submit form":function(event){
@@ -18,17 +16,9 @@ if (Meteor.isClient) {
             console.log(birthMonth + ", " + birthYear);
             event.target.registerEmail.value = "";
             event.target.registerPassword.value = "";
-            Accounts.createUser({
-                email:email,
-                password:pass,
-                profile: {
-                    firstName: firstName,
-                    lastName: lastName,
-                    birthMonth: birthMonth,
-                    birthYear: birthYear
-                },
-            });
-            Router.go("login");
+            Meteor.call("_registerNewUser",email,pass,firstName,lastName,birthMonth,birthYear);
+            Meteor.loginWithPassword(email, pass);
+            Router.go("profile");
         }
     });
     
@@ -43,35 +33,29 @@ if (Meteor.isClient) {
         }
     });
     
-    Template.main.helpers({
-        name:function(){
-            return Meteor.user().profile.firstName;    
-        }
+    
+    Handlebars.registerHelper('user',function(){
+        return Meteor.user();
     });
     
     Template.main.events({
-        "click .sideBarElement#profile":function(event){
+        //MAKE SURE THE ID OF THE SIDE BAR ELEMENT MATCHES THE ROUTER
+        "click .sideBarElement":function(event){
             event.preventDefault();
-            Router.go("profile");
-        },
-        "click .sideBarElement#feed":function(event){
-            event.preventDefault();
-            Router.go("feed");
-        },
-        "click .sideBarElement#logOut":function(event){
-            event.preventDefault();
-            Meteor.logout();
-            Router.go("login");
-        },
+            if(event.currentTarget.id!="logOut"){
+                Router.go(event.currentTarget.id);
+            }else{
+                Meteor.logout();
+                Router.go("login");
+            }
+        }
     });
     
     Accounts.onLoginFailure(function(){
-        console.log("failed to log in"); 
         Router.go("login"); 
     });
     
     Accounts.onLogin(function(){
-        console.log("logged in");
         Router.go("profile");
     });  
     
@@ -106,7 +90,23 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+    
     Meteor.startup(function () {
-        
+        console.log("Started Server!");
+    });
+    
+    Meteor.methods({
+        _registerNewUser:function(email,pass,firstName,lastName,birthMonth,birthYear){
+            Accounts.createUser({
+                email:email,
+                password:pass,
+                profile: {
+                    firstName: firstName,
+                    lastName: lastName,
+                    birthMonth: birthMonth,
+                    birthYear: birthYear
+                },
+            });    
+        }
     });
 }

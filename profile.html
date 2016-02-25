@@ -1,11 +1,15 @@
 <template name="profile">
     <div class="contentDiv">
         <div class="blueTop pageContent" id="profileName">Profile</div>
-        <div class="pageContent">
-            First Name: {{firstName}}
+        <div class="pageContent text">
+            First Name: {{user.profile.firstName}} <!--firstName}}-->
         </div>
-        <div class="pageContent last">
-            Last Name: {{lastName}}
+        <div class="pageContent text">
+            Last Name: {{user.profile.lastName}} <!--{{lastName}}-->
+        </div>
+        <div class="pageContent last text">
+            <!-- Make a global helper so that all templates can access the player's profile -->
+            Birthday: {{user.profile.birthMonth}}, {{user.profile.birthYear}} <!--{{lastName}}-->
         </div>
     </div>
 </template>

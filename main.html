@@ -8,7 +8,7 @@
         <div class="h1Wrapper">
             <h1 class="h1"> 
                 {{#if currentUser}}
-                    <p class="title">Hi, {{name}}!</p>
+                    <p class="title">Welcome, {{user.profile.firstName}}<!--{{name}}!--></p>
                 {{else}}
                     <p class="title">Welcome to Space Book</p>
                 {{/if}}
@@ -17,7 +17,8 @@
         {{#if currentUser}}
             <div class="sideBar">
                 <div class="sideBarElement" id="profile">
-                    {{name}}
+                    {{user.profile.firstName}}
+                    <!--{{name}}-->
                 </div>
                 <div class="sideBarElement" id="feed">
                     Feed
