@@ -1,6 +1,6 @@
 <template name="register">
     <div id="logInDiv">
-        <div id="blueTop">Space Book</div>
+        <div class="blueTop">Space Book</div>
         <form id="logInForm">
                 <div class="logInElementDiv">
                     <input type="email" placeholder="Email" name="registerEmail"/>
@@ -56,7 +56,7 @@
 
 <template name="login">
     <div id="logInDiv">
-        <div id="blueTop">Space Book</div>
+        <div class="blueTop">Space Book</div>
         <form id="logInForm">
                 <div class="logInElementDiv">
                     <input type="email" placeholder="Email" name="loginEmail"/>
@@ -73,7 +73,6 @@
         {{#if currentUser}}
         <footer>
             <div class="logOutDiv"><a href="#" class="logOut">Logout</a></div>
-            <div class="logOutDiv"><a href="#" class="delete">Delete Account</a></div>
         </footer>
         {{/if}}
 </template>

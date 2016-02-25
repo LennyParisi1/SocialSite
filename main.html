@@ -14,6 +14,20 @@
                 {{/if}}
             </h1>
         </div>
+        {{#if currentUser}}
+            <div class="sideBar">
+                <div class="sideBarElement" id="profile">
+                    {{name}}
+                </div>
+                <div class="sideBarElement" id="feed">
+                    Feed
+                </div>
+                
+                <div class="sideBarElement" id="logOut">
+                    Log Out
+                </div>
+            </div>
+        {{/if}}
         {{> yield}}
         </body>
 </template>

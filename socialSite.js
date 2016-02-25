@@ -2,39 +2,9 @@ var email,pass,firstName,lastName, birthMonth, birthYear;
 
 if (Meteor.isClient) {
     
-    Router.configure({
-        layoutTemplate:"main"    
-    });
     
-    Router.route("/login",{
-        name: 'login',
-        template: 'login'            
-    });
-    Router.route("/register",{
-        name: 'register',
-        template: 'register'
-    });    
+    routeAll();
     
-    Router.route('/', function() {
-        this.render("login")
-    });
-    
-    Template.login.events({
-        "click .logOut":function(event){
-            event.preventDefault();
-            Meteor.logout();
-            Router.go("login");
-        },
-        "click .delete":function(event){
-            Meteor.users.remove({ _id: Meteor.userId()}, function (error, result) {
-                if (error) {
-                    console.log("Error removing user: ", error);
-                } else {
-                    console.log("Number of users removed: " + result);
-                }
-            })    
-        }
-    });
     
     Template.register.events({
         "submit form":function(event){
@@ -79,13 +49,60 @@ if (Meteor.isClient) {
         }
     });
     
+    Template.main.events({
+        "click .sideBarElement#profile":function(event){
+            event.preventDefault();
+            Router.go("profile");
+        },
+        "click .sideBarElement#feed":function(event){
+            event.preventDefault();
+            Router.go("feed");
+        },
+        "click .sideBarElement#logOut":function(event){
+            event.preventDefault();
+            Meteor.logout();
+            Router.go("login");
+        },
+    });
+    
     Accounts.onLoginFailure(function(){
-        console.log("failed to log in");  
+        console.log("failed to log in"); 
+        Router.go("login"); 
     });
     
     Accounts.onLogin(function(){
         console.log("logged in");
-    });   
+        Router.go("profile");
+    });  
+    
+    function routeAll(){
+        Router.configure({
+            layoutTemplate:"main"    
+        });
+
+        Router.route("/login",{
+            name: 'login',
+            template: 'login'            
+        });
+        Router.route("/register",{
+            name: 'register',
+            template: 'register'
+        });
+
+        Router.route("/profile",{
+            name: 'profile',
+            template: 'profile'
+        });  
+
+        Router.route("/feed",{
+            name: 'feed',
+            template: 'feed'
+        });  
+
+        Router.route('/', function() {
+            this.render("login")
+        });    
+    }
 }
 
 if (Meteor.isServer) {
