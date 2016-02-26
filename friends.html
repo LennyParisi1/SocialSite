@@ -1,0 +1,16 @@
+<template name="friends">
+    <div class="contentDiv">
+        <div class="blueTop pageContent" id="profileName"><!--Friends-->Users</div>
+        <div class="pageContent">
+            {{#each users}}
+                <div class="text user" id="{{profile.firstName}}{{profile.lastName}}">
+                    {{profile.firstName}} {{profile.lastName}}
+                    <!--
+                    <button>Add Friend</button>
+                    <button>Message</button>
+                    -->
+                </div>
+            {{/each}}
+        </div>
+    </div>
+</template>

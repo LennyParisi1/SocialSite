@@ -1,4 +1,8 @@
+FriendsList = new Mongo.Collection("FriendsList");
+
 if (Meteor.isClient) {
+    
+    Meteor.subscribe("users");
     
     var email,pass,firstName,lastName, birthMonth, birthYear;
     
@@ -34,7 +38,7 @@ if (Meteor.isClient) {
     });
     
     
-    Handlebars.registerHelper('user',function(){
+    Handlebars.registerHelper('currentUser',function(){
         return Meteor.user();
     });
     
@@ -51,6 +55,22 @@ if (Meteor.isClient) {
         }
     });
     
+    Template.friends.helpers({
+        users:function(){
+            return Meteor.users.find().fetch();    
+        },
+        user:function(){
+            return Meteor.users.find({}, {sort: {firstName: 1}});    
+        }
+    });
+    
+    Template.friends.events({
+        "click .user":function(event){
+            console.log(event.currentTarget.id);
+            //GO TO THAT PERSONS PROFILE
+        }
+    });
+    
     Accounts.onLoginFailure(function(){
         Router.go("login"); 
     });
@@ -60,6 +80,7 @@ if (Meteor.isClient) {
     });  
     
     function routeAll(){
+        console.log("USERS: " + Meteor.users.find().fetch());
         Router.configure({
             layoutTemplate:"main"    
         });
@@ -72,16 +93,22 @@ if (Meteor.isClient) {
             name: 'register',
             template: 'register'
         });
-
+        
         Router.route("/profile",{
             name: 'profile',
             template: 'profile'
         });  
-
+        
+        
         Router.route("/feed",{
             name: 'feed',
             template: 'feed'
         });  
+        
+        Router.route("/friends",{
+            name: 'friends',
+            template: 'friends'
+        }); 
 
         Router.route('/', function() {
             this.render("login")
@@ -91,9 +118,25 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     
+    console.log("USERS: " + Meteor.users.find().fetch());
+    
+    var currentUserId;
+    
     Meteor.startup(function () {
         console.log("Started Server!");
     });
+    
+    /*
+    Meteor.publish("friends",function(){
+        currentUserId = this.userId;
+        return FriendsList.find({createdBy: currentUserId})
+    });
+    */
+    
+    Meteor.publish("users",function(){
+        return Meteor.users.find();
+    });
+    
     
     Meteor.methods({
         _registerNewUser:function(email,pass,firstName,lastName,birthMonth,birthYear){
